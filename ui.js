@@ -1,0 +1,29 @@
+(function(){
+  const THEME_KEY = 'rq_theme';
+
+  function applyTheme(theme){
+    const root = document.documentElement;
+    root.setAttribute('data-theme', theme);
+    localStorage.setItem(THEME_KEY, theme);
+    const btn = document.getElementById('theme-toggle');
+    if (btn){
+      btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+      btn.title = theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
+    }
+  }
+
+  function initTheme(){
+    const saved = localStorage.getItem(THEME_KEY) || 'light';
+    applyTheme(saved);
+    const btn = document.getElementById('theme-toggle');
+    if (btn){
+      btn.addEventListener('click', () => {
+        const next = (localStorage.getItem(THEME_KEY) || 'light') === 'light' ? 'dark' : 'light';
+        applyTheme(next);
+      });
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', initTheme);
+  window.RQUI = { applyTheme };
+})();

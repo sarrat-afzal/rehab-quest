@@ -12,6 +12,7 @@
       <nav class="userbar">
         <a href="dashboard.html" class="btn btn-ghost">Dashboard</a>
         <a href="report.html" class="btn btn-ghost">Reports</a>
+        <button id="theme-toggle" class="btn btn-ghost" title="Switch theme">🌙</button>
         <button id="logout-btn" class="btn">Logout</button>
         <div id="user-badge" class="badge" title=""></div>
       </nav>
@@ -26,7 +27,10 @@
           Turn recovery exercises into fun, trackable sessions. Choose an exercise, get realtime feedback,
           and see your progress & streak grow.
         </p>
-        <button class="btn btn-primary" onclick="goToSelection()">Start Exercising</button>
+        <div class="progress"><div id="streak-bar" class="bar" style="width:0"></div></div>
+        <div class="actions" style="margin-top:12px;">
+          <button class="btn btn-primary" onclick="goToSelection()">Start Exercising</button>
+        </div>
       </section>
 
       <!-- Exercise selection -->
@@ -76,6 +80,11 @@
         </div>
 
         <div class="video-wrap">
+          <div class="floating-controls">
+            <button class="btn btn-toggle" id="toggle-mirror">Mirror</button>
+            <button class="btn btn-toggle" id="toggle-guides">Guides</button>
+            <button class="btn btn-toggle" id="toggle-sound">Sound</button>
+          </div>
           <!-- Hidden input video -->
           <video id="video" autoplay playsinline width="640" height="480" class="hidden"></video>
           <!-- Canvas output -->
@@ -112,6 +121,18 @@
 
     <!-- App logic -->
     <script src="auth.js"></script>
+    <script src="ui.js"></script>
     <script src="app.js"></script>
+    <script>
+      // Initialize streak bar
+      (function(){
+        try {
+          const sd = JSON.parse(localStorage.getItem('streakData')||'{}');
+          const streak = Math.min(30, sd.streak || 0);
+          const pct = Math.round((streak/30)*100);
+          document.getElementById('streak-bar').style.width = pct+"%";
+        } catch {}
+      })();
+    </script>
   </body>
 </html>

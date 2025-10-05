@@ -4,6 +4,7 @@ const canvas = document.getElementById("output");
 const ctx = canvas.getContext("2d");
 const repInfo = document.getElementById("rep-info");
 const title = document.getElementById("exercise-title");
+if (repInfo) repInfo.classList.add('rep-info-animated');
 
 // Screens
 const introScreen = document.getElementById("intro-screen");
@@ -114,11 +115,23 @@ pose.setOptions({
 
 pose.onResults((results) => {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.drawImage(results.image, 0, 0, canvas.width, canvas.height);
+  const mirror = localStorage.getItem('rq_mirror') === '1';
+  if (mirror) {
+    ctx.save();
+    ctx.translate(canvas.width, 0);
+    ctx.scale(-1, 1);
+    ctx.drawImage(results.image, 0, 0, canvas.width, canvas.height);
+    ctx.restore();
+  } else {
+    ctx.drawImage(results.image, 0, 0, canvas.width, canvas.height);
+  }
 
   if (!results.poseLandmarks) return;
-  drawConnectors(ctx, results.poseLandmarks, POSE_CONNECTIONS, { color: "#00FF00", lineWidth: 2 });
-  drawLandmarks(ctx, results.poseLandmarks, { color: "#FF0000", lineWidth: 1 });
+  const showGuides = localStorage.getItem('rq_guides') !== '0';
+  if (showGuides) {
+    drawConnectors(ctx, results.poseLandmarks, POSE_CONNECTIONS, { color: "#34d399", lineWidth: 2 });
+    drawLandmarks(ctx, results.poseLandmarks, { color: "#ef4444", lineWidth: 1 });
+  }
 
   const lm = results.poseLandmarks;
 
@@ -178,6 +191,11 @@ pose.onResults((results) => {
 function countRep() {
   if (!inPosition) {
     repCount++;
+    if (repInfo) { repInfo.classList.remove('pulse'); void repInfo.offsetWidth; repInfo.classList.add('pulse'); }
+    const sound = localStorage.getItem('rq_sound') === '1';
+    if (sound) {
+      try { new Audio('data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAESsAACJWAAACABYAZGF0YQAAAAA=').play(); } catch {}
+    }
     if (targetSets > 0 && targetReps > 0) {
       const repsInSet = repCount % targetReps || targetReps;
       const setNum = Math.ceil(repCount / targetReps);
@@ -282,3 +300,19 @@ window.goToSelection = goToSelection;
 window.goBackToIntro = goBackToIntro;
 window.startExercise = startExercise;
 window.endExercise = endExercise;
+
+// ===== UI toggles =====
+document.addEventListener('DOMContentLoaded', () => {
+  const mirrorBtn = document.getElementById('toggle-mirror');
+  const guidesBtn = document.getElementById('toggle-guides');
+  const soundBtn = document.getElementById('toggle-sound');
+  const applyState = () => {
+    if (mirrorBtn) mirrorBtn.classList.toggle('active', localStorage.getItem('rq_mirror') === '1');
+    if (guidesBtn) guidesBtn.classList.toggle('active', localStorage.getItem('rq_guides') !== '0');
+    if (soundBtn) soundBtn.classList.toggle('active', localStorage.getItem('rq_sound') === '1');
+  };
+  mirrorBtn?.addEventListener('click', () => { localStorage.setItem('rq_mirror', localStorage.getItem('rq_mirror') === '1' ? '0' : '1'); applyState(); });
+  guidesBtn?.addEventListener('click', () => { localStorage.setItem('rq_guides', localStorage.getItem('rq_guides') === '0' ? '1' : '0'); applyState(); });
+  soundBtn?.addEventListener('click', () => { localStorage.setItem('rq_sound', localStorage.getItem('rq_sound') === '1' ? '0' : '1'); applyState(); });
+  applyState();
+});
