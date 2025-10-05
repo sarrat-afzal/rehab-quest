@@ -22,6 +22,12 @@
         applyTheme(next);
       });
     }
+    // Improve brand accessibility: clicking brand goes home
+    const brand = document.querySelector('.brand');
+    if (brand) {
+      brand.style.cursor = 'pointer';
+      brand.addEventListener('click', () => { window.location.href = 'index.html'; });
+    }
   }
 
   document.addEventListener('DOMContentLoaded', initTheme);

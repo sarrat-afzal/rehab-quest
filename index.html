@@ -8,7 +8,24 @@
   </head>
   <body>
     <header class="topbar">
-      <div class="brand">🏥 Rehab Quest</div>
+      <div class="brand" aria-label="Rehab QUEST">
+        <svg width="28" height="28" viewBox="0 0 64 64" aria-hidden="true" style="vertical-align:middle;margin-right:8px">
+          <defs>
+            <linearGradient id="g1" x1="0" x2="1">
+              <stop offset="0%" stop-color="var(--primary)" />
+              <stop offset="100%" stop-color="var(--accent)" />
+            </linearGradient>
+          </defs>
+          <path d="M8 32c8-8 16-8 24 0s16 8 24 0" fill="none" stroke="url(#g1)" stroke-width="4" stroke-linecap="round">
+            <animate attributeName="d" dur="2s" repeatCount="indefinite"
+              values="M8 32c8-8 16-8 24 0s16 8 24 0; M8 28c8 8 16 8 24 0s16-8 24 0; M8 32c8-8 16-8 24 0s16 8 24 0" />
+          </path>
+          <circle cx="32" cy="18" r="4" fill="url(#g1)">
+            <animate attributeName="cy" values="18;14;18" dur="2s" repeatCount="indefinite" />
+          </circle>
+        </svg>
+        Rehab QUEST
+      </div>
       <nav class="userbar">
         <a href="dashboard.html" class="btn btn-ghost">Dashboard</a>
         <a href="report.html" class="btn btn-ghost">Reports</a>
@@ -20,16 +37,38 @@
 
     <main class="container">
 
-      <!-- Intro screen -->
-      <section id="intro-screen" class="card">
-        <h1>Rehab Quest</h1>
-        <p class="muted">
-          Turn recovery exercises into fun, trackable sessions. Choose an exercise, get realtime feedback,
-          and see your progress & streak grow.
-        </p>
-        <div class="progress"><div id="streak-bar" class="bar" style="width:0"></div></div>
-        <div class="actions" style="margin-top:12px;">
-          <button class="btn btn-primary" onclick="goToSelection()">Start Exercising</button>
+      <!-- Hero / Landing -->
+      <section id="intro-screen" class="card hero-card">
+        <div class="hero-head">
+          <h1 class="hero-title">Rehab <span>QUEST</span></h1>
+          <p class="hero-tag">AI-guided recovery for strength and mobility.</p>
+          <p class="hero-sub muted">Your personalized path to strength, balance, and recovery — guided by AI.</p>
+          <div class="actions" style="margin-top:12px;">
+            <a class="btn btn-primary" href="login.html">Start Exercising</a>
+          </div>
+        </div>
+        <div class="features">
+          <div class="feature">
+            <div class="feature-icon" aria-hidden="true">🧠</div>
+            <div>
+              <div class="feature-title">Smart Exercise Tracking</div>
+              <div class="feature-text">Real-time motion feedback using AI.</div>
+            </div>
+          </div>
+          <div class="feature">
+            <div class="feature-icon" aria-hidden="true">📈</div>
+            <div>
+              <div class="feature-title">Personal Progress Reports</div>
+              <div class="feature-text">Track streaks, reps, and performance trends.</div>
+            </div>
+          </div>
+          <div class="feature">
+            <div class="feature-icon" aria-hidden="true">🏥</div>
+            <div>
+              <div class="feature-title">Clinician Insights</div>
+              <div class="feature-text">Securely share reports with healthcare professionals.</div>
+            </div>
+          </div>
         </div>
       </section>
 

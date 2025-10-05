@@ -20,6 +20,11 @@
     return /(^|\/)login\.html?$/.test(window.location.pathname);
   }
 
+  function isLandingPage(){
+    const p = window.location.pathname;
+    return p === '/' || /(^|\/)index\.html?$/.test(p);
+  }
+
   function requireAuth(){
     const user = getCurrentUser();
     if (!user || !user.name) {
@@ -64,11 +69,10 @@
     // Only enforce auth on non-viewer, non-login pages
     const isViewer = /(^|\/)viewer\.html?$/.test(window.location.pathname);
     if (!isViewer) {
-      if (!isLoginPage()) {
+      if (!isLoginPage() && !isLandingPage()) {
         if (!requireAuth()) return; // redirects if needed
-      } else {
-        // on login, if already logged in, requireAuth will redirect; else do nothing
       }
+      // on login, if already logged in, requireAuth will redirect; else landing is public
     }
     initAuthHeader();
   });
