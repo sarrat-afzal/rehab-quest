@@ -1,0 +1,135 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Rehab Quest – Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">🏥 Rehab Quest</div>
+      <nav>
+        <a href="index.html" class="btn btn-ghost">Back to App</a>
+        <a href="report.html" class="btn">Open Reports</a>
+      </nav>
+    </header>
+
+    <main class="container">
+      <section class="grid-2">
+        <div class="card">
+          <h2>Overview</h2>
+          <div class="stats">
+            <div class="stat">
+              <div class="stat-number" id="stat-sessions">0</div>
+              <div class="stat-label">Total Sessions</div>
+            </div>
+            <div class="stat">
+              <div class="stat-number" id="stat-reps">0</div>
+              <div class="stat-label">Total Reps</div>
+            </div>
+            <div class="stat">
+              <div class="stat-number" id="stat-streak">0🔥</div>
+              <div class="stat-label">Current Streak</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Sessions Over Time</h2>
+          <canvas id="sessionsChart" height="140"></canvas>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Exercise Mix (Total Reps by Exercise)</h2>
+        <canvas id="mixChart" height="120"></canvas>
+      </section>
+
+      <section class="card">
+        <h2>History</h2>
+        <div id="history" class="table"></div>
+      </section>
+    </main>
+
+    <script>
+      const progress = JSON.parse(localStorage.getItem("progress") || "[]");
+      const streakData = JSON.parse(localStorage.getItem("streakData") || "{}");
+
+      // Stats
+      const totalSessions = progress.length;
+      const totalReps = progress.reduce((s, p) => s + (p.reps || 0), 0);
+      document.getElementById("stat-sessions").textContent = totalSessions;
+      document.getElementById("stat-reps").textContent = totalReps;
+      document.getElementById("stat-streak").textContent = (streakData.streak || 0) + "🔥";
+
+      // Sessions chart (sessions per day)
+      const byDay = progress.reduce((m, s) => {
+        m[s.day] = (m[s.day] || 0) + 1;
+        return m;
+      }, {});
+      const dayLabels = Object.keys(byDay).sort();
+      const dayCounts = dayLabels.map(d => byDay[d]);
+
+      new Chart(document.getElementById("sessionsChart"), {
+        type: "line",
+        data: {
+          labels: dayLabels,
+          datasets: [{
+            label: "Sessions",
+            data: dayCounts,
+            tension: 0.3
+          }]
+        },
+        options: {
+          plugins: { legend: { display: false } },
+          scales: { y: { beginAtZero: true, ticks: { precision: 0 } } }
+        }
+      });
+
+      // Mix chart (reps by exercise)
+      const byExercise = progress.reduce((m, s) => {
+        m[s.exercise] = (m[s.exercise] || 0) + (s.reps || 0);
+        return m;
+      }, {});
+      const exLabels = Object.keys(byExercise);
+      const exCounts = exLabels.map(k => byExercise[k]);
+
+      new Chart(document.getElementById("mixChart"), {
+        type: "bar",
+        data: {
+          labels: exLabels,
+          datasets: [{ label: "Total Reps", data: exCounts }]
+        },
+        options: {
+          plugins: { legend: { display: false } },
+          scales: { y: { beginAtZero: true, ticks: { precision: 0 } } }
+        }
+      });
+
+      // History table
+      const history = document.getElementById("history");
+      if (progress.length === 0) {
+        history.innerHTML = '<p class="muted">No sessions yet.</p>';
+      } else {
+        const rows = progress
+          .slice().reverse()
+          .map(s => `
+            <div class="row table-row">
+              <div>${new Date(s.date).toLocaleString()}</div>
+              <div>${s.exercise}</div>
+              <div>${s.reps} reps</div>
+              <div>${s.duration}</div>
+            </div>
+          `).join("");
+        history.innerHTML = `
+          <div class="row table-head">
+            <div>Date</div><div>Exercise</div><div>Reps</div><div>Duration</div>
+          </div>
+          ${rows}
+        `;
+      }
+    </script>
+  </body>
+</html>
