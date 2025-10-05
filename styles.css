@@ -94,6 +94,13 @@ body {
 .hero-lottie { width: min(480px, 80vw); height: auto; }
 .icon-lottie { width: 28px; height: 28px; }
 
+/* Scroll reveal */
+[data-reveal] { opacity: 0; transform: translateY(8px); transition: opacity .5s ease, transform .5s ease; }
+[data-reveal].visible { opacity: 1; transform: translateY(0); }
+
+/* Footer strip */
+.strip { text-align: center; padding: 16px; }
+
 .card {
   background: var(--card);
   border: 1px solid var(--border);

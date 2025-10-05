@@ -35,6 +35,15 @@
       brand.style.cursor = 'pointer';
       brand.addEventListener('click', () => { window.location.href = 'index.html'; });
     }
+
+    // Scroll reveal
+    const items = Array.from(document.querySelectorAll('[data-reveal]'));
+    if (items.length) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+      }, { threshold: 0.15 });
+      items.forEach(el => io.observe(el));
+    }
   }
 
   document.addEventListener('DOMContentLoaded', initTheme);

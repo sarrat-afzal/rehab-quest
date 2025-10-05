@@ -9,14 +9,35 @@
   </head>
   <body>
     <header class="topbar">
-      <div class="brand">🏥 Rehab Quest</div>
+      <div class="brand" aria-label="Rehab QUEST">
+        <svg width="26" height="26" viewBox="0 0 64 64" aria-hidden="true" style="vertical-align:middle;margin-right:8px">
+          <defs>
+            <linearGradient id="g1" x1="0" x2="1">
+              <stop offset="0%" stop-color="var(--primary)" />
+              <stop offset="100%" stop-color="var(--accent)" />
+            </linearGradient>
+          </defs>
+          <path d="M8 32c8-8 16-8 24 0s16 8 24 0" fill="none" stroke="url(#g1)" stroke-width="4" stroke-linecap="round">
+            <animate attributeName="d" dur="2s" repeatCount="indefinite"
+              values="M8 32c8-8 16-8 24 0s16 8 24 0; M8 28c8 8 16 8 24 0s16-8 24 0; M8 32c8-8 16-8 24 0s16 8 24 0" />
+          </path>
+          <circle cx="32" cy="18" r="4" fill="url(#g1)">
+            <animate attributeName="cy" values="18;14;18" dur="2s" repeatCount="indefinite" />
+          </circle>
+        </svg>
+        Rehab QUEST
+      </div>
     </header>
 
     <main class="container">
       <section class="auth-card">
         <div class="hero">
-          <h1>Welcome to Rehab Quest</h1>
+          <h1>Welcome to Rehab QUEST</h1>
           <p class="muted">Your browser-powered rehab companion. No wearables required.</p>
+          <p id="quote" class="muted small" style="margin-top:6px; min-height:18px; opacity:.85"></p>
+          <div class="progress" style="margin-top:10px;">
+            <div id="preview-bar" class="bar" style="width:0%"></div>
+          </div>
         </div>
         <form id="login-form" class="form">
           <div class="row gap wrap">
@@ -38,6 +59,25 @@
     </main>
 
     <script>
+      // Quote rotator
+      (function(){
+        const quotes = [
+          'Every rep counts.',
+          'Stronger today than yesterday.',
+          'Small steps, big gains.',
+          'Consistency builds strength.'
+        ];
+        let i = 0; const el = document.getElementById('quote');
+        function tick(){ if(!el) return; el.style.transition='opacity .4s'; el.style.opacity='0'; setTimeout(()=>{ el.textContent = quotes[i%quotes.length]; el.style.opacity='1'; i++; }, 400); }
+        tick(); setInterval(tick, 5000);
+      })();
+
+      // Animated progress preview
+      (function(){
+        const bar = document.getElementById('preview-bar');
+        let w = 0; setInterval(()=>{ if(!bar) return; w = (w + 7) % 100; bar.style.width = w + '%'; }, 1200);
+      })();
+
       document.getElementById('login-form').addEventListener('submit', function(e){
         e.preventDefault();
         const name = document.getElementById('name').value.trim();
