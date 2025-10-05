@@ -71,8 +71,12 @@
           </div>
         </div>
 
-        <section class="how card">
-          <h2>How It Works</h2>
+        <section class="how card collapsible" id="how-card">
+          <div class="collapsible-header" onclick="document.getElementById('how-card').classList.toggle('open')">
+            <h2>How It Works</h2>
+            <span class="chev">⌄</span>
+          </div>
+          <div class="collapsible-content">
           <div class="steps">
             <div class="step" data-reveal>
               <div class="icon" aria-hidden="true">🎥</div>
@@ -89,6 +93,7 @@
               <h3>Progress Tracking</h3>
               <p class="muted small">Build streaks and review reports over time.</p>
             </div>
+          </div>
           </div>
         </section>
       </section>
@@ -111,14 +116,56 @@
           </div>
         </div>
 
-        <div class="grid">
-          <button class="btn btn-chip" onclick="startExercise('doubleArm')">Double Arm Raises</button>
-          <button class="btn btn-chip" onclick="startExercise('leftArm')">Left Arm Raises</button>
-          <button class="btn btn-chip" onclick="startExercise('rightArm')">Right Arm Raises</button>
-          <button class="btn btn-chip" onclick="startExercise('leftLeg')">Left Leg Raises</button>
-          <button class="btn btn-chip" onclick="startExercise('rightLeg')">Right Leg Raises</button>
-          <button class="btn btn-chip" onclick="startExercise('tilt')">Body Tilts</button>
-          <button class="btn btn-chip" onclick="startExercise('squats')">Squats</button>
+        <div class="exercises">
+          <div class="exercise-card" onclick="startExercise('doubleArm')">
+            <div class="emoji">🙌</div>
+            <div>
+              <div class="name">Double Arm Raises</div>
+              <div class="desc">Raise both arms above shoulders.</div>
+            </div>
+          </div>
+          <div class="exercise-card" onclick="startExercise('leftArm')">
+            <div class="emoji">💪</div>
+            <div>
+              <div class="name">Left Arm Raises</div>
+              <div class="desc">Lift left arm past shoulder line.</div>
+            </div>
+          </div>
+          <div class="exercise-card" onclick="startExercise('rightArm')">
+            <div class="emoji">💪</div>
+            <div>
+              <div class="name">Right Arm Raises</div>
+              <div class="desc">Lift right arm past shoulder line.</div>
+            </div>
+          </div>
+          <div class="exercise-card" onclick="startExercise('leftLeg')">
+            <div class="emoji">🦵</div>
+            <div>
+              <div class="name">Left Leg Raises</div>
+              <div class="desc">Raise left leg with control.</div>
+            </div>
+          </div>
+          <div class="exercise-card" onclick="startExercise('rightLeg')">
+            <div class="emoji">🦵</div>
+            <div>
+              <div class="name">Right Leg Raises</div>
+              <div class="desc">Raise right leg with control.</div>
+            </div>
+          </div>
+          <div class="exercise-card" onclick="startExercise('tilt')">
+            <div class="emoji">↔️</div>
+            <div>
+              <div class="name">Body Tilts</div>
+              <div class="desc">Tilt torso left/right gently.</div>
+            </div>
+          </div>
+          <div class="exercise-card" onclick="startExercise('squats')">
+            <div class="emoji">🏋️</div>
+            <div>
+              <div class="name">Squats</div>
+              <div class="desc">Controlled squat with aligned knees.</div>
+            </div>
+          </div>
         </div>
 
         <div class="actions">

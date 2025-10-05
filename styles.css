@@ -120,6 +120,14 @@ body {
 .wrap { flex-wrap: wrap; }
 .gap { gap: 10px; }
 
+/* Collapsible */
+.collapsible { overflow: hidden; }
+.collapsible-header { display:flex; align-items:center; justify-content: space-between; cursor: pointer; }
+.collapsible-header .chev { transition: transform .2s ease; }
+.collapsible.open .collapsible-header .chev { transform: rotate(180deg); }
+.collapsible-content { max-height: 0; overflow: hidden; transition: max-height .3s ease, opacity .25s ease; opacity: .0; }
+.collapsible.open .collapsible-content { max-height: 600px; opacity: 1; }
+
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; }
 .grid-2 { display: grid; grid-template-columns: 1fr; gap: 16px; }
 @media (min-width: 880px) { .grid-2 { grid-template-columns: 1fr 1fr; } }

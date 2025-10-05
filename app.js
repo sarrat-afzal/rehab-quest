@@ -54,6 +54,19 @@ function startExercise(exercise) {
   repInfo.textContent = targetSets > 0 && targetReps > 0
     ? `Set ${currentSet}/${targetSets} • Reps: 0/${targetReps}`
     : `Reps: 0`;
+  // create/set progress bar under repInfo
+  let prog = document.getElementById('set-progress');
+  if (!prog) {
+    prog = document.createElement('div');
+    prog.id = 'set-progress';
+    prog.className = 'progress';
+    const bar = document.createElement('div');
+    bar.className = 'bar';
+    prog.appendChild(bar);
+    const header = exerciseScreen.querySelector('.card-header');
+    header?.insertAdjacentElement('afterend', prog);
+  }
+  updateSetProgress();
 
   selectionScreen.classList.add("hidden");
   exerciseScreen.classList.remove("hidden");
@@ -212,6 +225,7 @@ function countRep() {
     } else {
       repInfo.textContent = `Reps: ${repCount}`;
     }
+    updateSetProgress();
     inPosition = true;
   }
 }
@@ -248,6 +262,18 @@ function showToast(message, time=900){
   el.style.opacity = '1';
   clearTimeout(toastTimeout);
   toastTimeout = setTimeout(()=>{ el.style.opacity='0'; }, time);
+}
+
+function updateSetProgress(){
+  const bar = document.querySelector('#set-progress .bar');
+  if (!bar) return;
+  if (targetSets > 0 && targetReps > 0) {
+    const repsInSet = repCount % targetReps;
+    const pct = Math.min(100, Math.round((repsInSet / targetReps) * 100));
+    bar.style.width = pct + '%';
+  } else {
+    bar.style.width = '0%';
+  }
 }
 
 // ===== Progress & Streak (localStorage) =====
