@@ -10,9 +10,11 @@
   <body>
     <header class="topbar">
       <div class="brand">🏥 Rehab Quest</div>
-      <nav>
-        <a href="index.html" class="btn btn-ghost">Back to App</a>
-        <a href="report.html" class="btn">Open Reports</a>
+      <nav class="userbar">
+        <a href="index.html" class="btn btn-ghost">App</a>
+        <a href="report.html" class="btn">Reports</a>
+        <button id="logout-btn" class="btn">Logout</button>
+        <div id="user-badge" class="badge" title=""></div>
       </nav>
     </header>
 
@@ -48,11 +50,15 @@
       </section>
 
       <section class="card">
-        <h2>History</h2>
-        <div id="history" class="table"></div>
+        <div class="row-between">
+          <h2>History</h2>
+          <button id="share-link" class="btn">Copy Clinician Share Link</button>
+        </div>
+        <div id="history" class="table" style="margin-top:8px;"></div>
       </section>
     </main>
 
+    <script src="auth.js"></script>
     <script>
       const progress = JSON.parse(localStorage.getItem("progress") || "[]");
       const streakData = JSON.parse(localStorage.getItem("streakData") || "{}");
@@ -110,6 +116,18 @@
 
       // History table
       const history = document.getElementById("history");
+      const shareBtn = document.getElementById("share-link");
+      shareBtn.addEventListener('click', () => {
+        try {
+          const user = JSON.parse(localStorage.getItem('rq_user')||'null');
+          const payload = { user, progress, streakData, generatedAt: Date.now() };
+          const json = JSON.stringify(payload);
+          const b64 = btoa(unescape(encodeURIComponent(json)));
+          const url = `${location.origin}${location.pathname.replace(/[^/]*$/, '')}viewer.html?data=${b64}`;
+          navigator.clipboard.writeText(url);
+          alert('Share link copied to clipboard');
+        } catch { alert('Failed to create link'); }
+      });
       if (progress.length === 0) {
         history.innerHTML = '<p class="muted">No sessions yet.</p>';
       } else {

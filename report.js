@@ -50,6 +50,21 @@ exportAllBtn.addEventListener("click", () => {
   doc.text(`Total Reps: ${totalReps}`, 14, 42);
   doc.text(`Current Streak: ${streak} days`, 14, 50);
 
+  // Shareable viewer link
+  try {
+    const user = JSON.parse(localStorage.getItem('rq_user')||'null');
+    const payload = {
+      user,
+      progress,
+      streakData,
+      generatedAt: Date.now()
+    };
+    const json = JSON.stringify(payload);
+    const b64 = btoa(unescape(encodeURIComponent(json)));
+    const shareUrl = `${location.origin}${location.pathname.replace(/[^/]*$/, '')}viewer.html?data=${b64}`;
+    doc.textWithLink('Open in Clinician Viewer', 14, 58, { url: shareUrl });
+  } catch {}
+
   // Table header
   let y = 64;
   doc.setFont("helvetica", "bold");

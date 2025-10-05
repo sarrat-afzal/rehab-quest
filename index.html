@@ -9,8 +9,11 @@
   <body>
     <header class="topbar">
       <div class="brand">🏥 Rehab Quest</div>
-      <nav>
-        <a href="dashboard.html" class="btn btn-ghost">View Dashboard</a>
+      <nav class="userbar">
+        <a href="dashboard.html" class="btn btn-ghost">Dashboard</a>
+        <a href="report.html" class="btn btn-ghost">Reports</a>
+        <button id="logout-btn" class="btn">Logout</button>
+        <div id="user-badge" class="badge" title=""></div>
       </nav>
     </header>
 
@@ -31,6 +34,17 @@
         <div class="card-header">
           <h2>Select an exercise</h2>
           <p class="muted">Pick one to begin.</p>
+        </div>
+
+        <div class="row gap wrap" style="margin-bottom:8px;">
+          <div class="field">
+            <label for="target-reps">Target reps per set</label>
+            <input id="target-reps" class="input" type="number" min="0" step="1" placeholder="e.g. 10" />
+          </div>
+          <div class="field">
+            <label for="target-sets">Target sets</label>
+            <input id="target-sets" class="input" type="number" min="0" step="1" placeholder="e.g. 3" />
+          </div>
         </div>
 
         <div class="grid">
@@ -97,6 +111,7 @@
     <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 
     <!-- App logic -->
+    <script src="auth.js"></script>
     <script src="app.js"></script>
   </body>
 </html>

@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Rehab Quest – Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="auth.js" defer></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">🏥 Rehab Quest</div>
+    </header>
+
+    <main class="container">
+      <section class="auth-card">
+        <div class="hero">
+          <h1>Welcome to Rehab Quest</h1>
+          <p class="muted">Your browser-powered rehab companion. No wearables required.</p>
+        </div>
+        <form id="login-form" class="form">
+          <div class="row gap wrap">
+            <div class="field">
+              <label for="name">Name</label>
+              <input id="name" class="input" placeholder="Jane Doe" required />
+            </div>
+            <div class="field">
+              <label for="email">Email (optional)</label>
+              <input id="email" type="email" class="input" placeholder="jane@example.com" />
+            </div>
+          </div>
+          <div class="actions" style="margin-top:12px;">
+            <button class="btn btn-primary" type="submit">Continue</button>
+          </div>
+          <p class="muted small" style="margin-top:8px;">Tip: Use a well-lit space and a webcam.</p>
+        </form>
+      </section>
+    </main>
+
+    <script>
+      document.getElementById('login-form').addEventListener('submit', function(e){
+        e.preventDefault();
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        if (!name) return;
+        window.RQAuth.setUser(name, email);
+        window.location.href = 'index.html';
+      });
+    </script>
+  </body>
+</html>
