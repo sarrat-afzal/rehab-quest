@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Rehab Quest – Reports</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">🏥 Rehab Quest</div>
+      <nav class="userbar">
+        <a href="index.html" class="btn btn-ghost">App</a>
+        <a href="dashboard.html" class="btn">Dashboard</a>
+        <button id="logout-btn" class="btn">Logout</button>
+        <div id="user-badge" class="badge" title=""></div>
+      </nav>
+    </header>
+
+    <main class="container">
+
+      <section class="card">
+        <h2>Generate Full Report</h2>
+        <p class="muted">Create a PDF report with your session history and stats.</p>
+
+        <div class="row gap">
+          <button class="btn btn-primary" id="export-all-pdf">Export All Sessions (PDF)</button>
+          <button class="btn" id="clear-data">Clear Local Data</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Preview</h2>
+        <div id="preview" class="table"></div>
+      </section>
+
+    </main>
+
+    <script src="auth.js"></script>
+    <script src="report.js"></script>
+  </body>
+</html>

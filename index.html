@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Rehab Quest</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">🏥 Rehab Quest</div>
+      <nav class="userbar">
+        <a href="dashboard.html" class="btn btn-ghost">Dashboard</a>
+        <a href="report.html" class="btn btn-ghost">Reports</a>
+        <button id="logout-btn" class="btn">Logout</button>
+        <div id="user-badge" class="badge" title=""></div>
+      </nav>
+    </header>
+
+    <main class="container">
+
+      <!-- Intro screen -->
+      <section id="intro-screen" class="card">
+        <h1>Rehab Quest</h1>
+        <p class="muted">
+          Turn recovery exercises into fun, trackable sessions. Choose an exercise, get realtime feedback,
+          and see your progress & streak grow.
+        </p>
+        <button class="btn btn-primary" onclick="goToSelection()">Start Exercising</button>
+      </section>
+
+      <!-- Exercise selection -->
+      <section id="selection-screen" class="card hidden">
+        <div class="card-header">
+          <h2>Select an exercise</h2>
+          <p class="muted">Pick one to begin.</p>
+        </div>
+
+        <div class="row gap wrap" style="margin-bottom:8px;">
+          <div class="field">
+            <label for="target-reps">Target reps per set</label>
+            <input id="target-reps" class="input" type="number" min="0" step="1" placeholder="e.g. 10" />
+          </div>
+          <div class="field">
+            <label for="target-sets">Target sets</label>
+            <input id="target-sets" class="input" type="number" min="0" step="1" placeholder="e.g. 3" />
+          </div>
+        </div>
+
+        <div class="grid">
+          <button class="btn btn-chip" onclick="startExercise('doubleArm')">Double Arm Raises</button>
+          <button class="btn btn-chip" onclick="startExercise('leftArm')">Left Arm Raises</button>
+          <button class="btn btn-chip" onclick="startExercise('rightArm')">Right Arm Raises</button>
+          <button class="btn btn-chip" onclick="startExercise('leftLeg')">Left Leg Raises</button>
+          <button class="btn btn-chip" onclick="startExercise('rightLeg')">Right Leg Raises</button>
+          <button class="btn btn-chip" onclick="startExercise('tilt')">Body Tilts</button>
+          <button class="btn btn-chip" onclick="startExercise('squats')">Squats</button>
+        </div>
+
+        <div class="actions">
+          <button class="btn" onclick="goBackToIntro()">Back</button>
+          <a class="btn btn-ghost" href="dashboard.html">Go to Dashboard</a>
+        </div>
+      </section>
+
+      <!-- Exercise screen -->
+      <section id="exercise-screen" class="card hidden">
+        <div class="card-header row-between">
+          <div>
+            <h2 id="exercise-title">Exercise</h2>
+            <p id="rep-info" class="muted">Reps: 0</p>
+          </div>
+          <div class="actions">
+            <button class="btn" onclick="endExercise()">End Session</button>
+          </div>
+        </div>
+
+        <div class="video-wrap">
+          <!-- Hidden input video -->
+          <video id="video" autoplay playsinline width="640" height="480" class="hidden"></video>
+          <!-- Canvas output -->
+          <canvas id="output" width="640" height="480"></canvas>
+        </div>
+
+        <p class="muted small">
+          Tip: Make sure your full body is visible for better tracking.
+        </p>
+      </section>
+    </main>
+
+    <!-- Report Modal -->
+    <dialog id="report-modal" class="modal">
+      <div class="modal-card">
+        <h3>✅ Session Complete</h3>
+        <p id="report-summary" class="muted"></p>
+        <div class="row wrap gap">
+          <a class="btn btn-primary" href="dashboard.html">View Progress Dashboard</a>
+          <a class="btn" href="report.html">Open Report Page</a>
+          <button class="btn btn-ghost" id="export-pdf-btn">Export PDF</button>
+          <button class="btn" id="close-report-btn">Close</button>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- MediaPipe libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose/pose.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"></script>
+
+    <!-- PDF -->
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+
+    <!-- App logic -->
+    <script src="auth.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
