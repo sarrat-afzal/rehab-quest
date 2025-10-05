@@ -37,6 +37,13 @@ body {
 }
 
 .brand { font-weight: 700; }
+.userbar { display:flex; align-items:center; gap:8px; }
+.badge {
+  width: 32px; height: 32px; border-radius: 999px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: #eef2ff; color: #1f2a6b; font-weight: 700;
+  border: 1px solid var(--border);
+}
 
 .card {
   background: var(--card);
@@ -130,3 +137,23 @@ body {
   box-shadow: 0 20px 40px rgba(0,0,0,.1);
 }
 .row.gap > * { margin-right: 8px; }
+
+/* Auth */
+.auth-card {
+  background: linear-gradient(120deg, #ffffff 40%, #f9fafe 100%);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 14px 30px rgba(79,70,229,0.06);
+}
+.hero h1 { margin: 0 0 6px; }
+.form { margin-top: 10px; }
+.field { display: flex; flex-direction: column; min-width: 240px; }
+.field label { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+.input {
+  padding: 10px 12px; border: 1px solid var(--border); border-radius: 10px;
+  font: inherit; background: #fff; color: var(--text);
+}
+
+/* Header actions */
+.topbar .btn + .badge { margin-left: 4px; }

@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Rehab Quest – Clinician View</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">🏥 Rehab Quest</div>
+      <nav>
+        <button class="btn" onclick="window.print()">Print</button>
+      </nav>
+    </header>
+
+    <main class="container">
+      <section class="card">
+        <h2 id="viewer-title">Shared Progress</h2>
+        <p class="muted" id="viewer-meta"></p>
+      </section>
+
+      <section class="grid-2">
+        <div class="card">
+          <h3>Sessions Over Time</h3>
+          <canvas id="sessionsChart" height="140"></canvas>
+        </div>
+        <div class="card">
+          <h3>Exercise Mix</h3>
+          <canvas id="mixChart" height="140"></canvas>
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>History</h3>
+        <div id="history" class="table"></div>
+      </section>
+    </main>
+
+    <script src="viewer.js"></script>
+  </body>
+</html>

@@ -21,6 +21,9 @@ let repCount = 0;
 let inPosition = false;
 let currentExercise = "none";
 let startTime;
+let targetReps = 0;
+let targetSets = 0;
+let currentSet = 1;
 let camera;
 let lastSession = null;
 
@@ -40,8 +43,16 @@ function startExercise(exercise) {
   repCount = 0;
   inPosition = false;
   startTime = Date.now();
+  // Read targets
+  const repsInput = document.getElementById("target-reps");
+  const setsInput = document.getElementById("target-sets");
+  targetReps = Math.max(0, parseInt(repsInput?.value || "0", 10) || 0);
+  targetSets = Math.max(0, parseInt(setsInput?.value || "0", 10) || 0);
+  currentSet = 1;
   title.textContent = `Exercise: ${exercise}`;
-  repInfo.textContent = `Reps: 0`;
+  repInfo.textContent = targetSets > 0 && targetReps > 0
+    ? `Set ${currentSet}/${targetSets} • Reps: 0/${targetReps}`
+    : `Reps: 0`;
 
   selectionScreen.classList.add("hidden");
   exerciseScreen.classList.remove("hidden");
@@ -167,7 +178,22 @@ pose.onResults((results) => {
 function countRep() {
   if (!inPosition) {
     repCount++;
-    repInfo.textContent = `Reps: ${repCount}`;
+    if (targetSets > 0 && targetReps > 0) {
+      const repsInSet = repCount % targetReps || targetReps;
+      const setNum = Math.ceil(repCount / targetReps);
+      currentSet = Math.min(setNum, targetSets);
+      repInfo.textContent = `Set ${currentSet}/${targetSets} • Reps: ${repsInSet}/${targetReps}`;
+      if (repsInSet === targetReps && currentSet < targetSets) {
+        // brief toast
+        showToast(`Set ${currentSet} complete!`);
+      }
+      if (repCount >= targetReps * targetSets) {
+        showToast("All sets complete!", 1200);
+        setTimeout(() => endExercise(), 800);
+      }
+    } else {
+      repInfo.textContent = `Reps: ${repCount}`;
+    }
     inPosition = true;
   }
 }
@@ -179,6 +205,31 @@ function startCamera() {
     height: 480,
   });
   camera.start();
+}
+
+// Lightweight toast
+let toastTimeout;
+function showToast(message, time=900){
+  let el = document.getElementById('toast');
+  if (!el){
+    el = document.createElement('div');
+    el.id = 'toast';
+    el.style.position = 'fixed';
+    el.style.bottom = '20px';
+    el.style.left = '50%';
+    el.style.transform = 'translateX(-50%)';
+    el.style.background = 'rgba(15,18,34,0.9)';
+    el.style.color = '#fff';
+    el.style.padding = '10px 14px';
+    el.style.borderRadius = '10px';
+    el.style.boxShadow = '0 6px 16px rgba(0,0,0,.2)';
+    el.style.zIndex = '2000';
+    document.body.appendChild(el);
+  }
+  el.textContent = message;
+  el.style.opacity = '1';
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(()=>{ el.style.opacity='0'; }, time);
 }
 
 // ===== Progress & Streak (localStorage) =====
