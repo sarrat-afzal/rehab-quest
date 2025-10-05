@@ -104,6 +104,27 @@ body {
 /* Footer strip */
 .strip { text-align: center; padding: 16px; }
 
+/* Exercise selection cards */
+.exercises { display: grid; gap: 14px; grid-template-columns: 1fr; margin-top: 8px; }
+@media (min-width: 760px) { .exercises { grid-template-columns: repeat(3, 1fr); } }
+.exercise-card {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px;
+  background: var(--card);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: transform .15s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.exercise-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); border-color: color-mix(in srgb, var(--primary), var(--border) 70%); }
+.exercise-card .emoji { font-size: 26px; line-height: 1; }
+.exercise-card .name { font-weight: 800; }
+.exercise-card .desc { color: var(--muted); font-size: 14px; }
+
 .card {
   background: var(--card);
   border: 1px solid var(--border);
