@@ -1,11 +1,21 @@
 const preview = document.getElementById("preview");
 const exportAllBtn = document.getElementById("export-all-pdf");
 const clearBtn = document.getElementById("clear-data");
+const sessionsEl = document.getElementById("sessionsChart");
+const mixEl = document.getElementById("mixChart");
+const streakBar = document.getElementById("streakBarReport");
 
 const progress = JSON.parse(localStorage.getItem("progress") || "[]");
 const streakData = JSON.parse(localStorage.getItem("streakData") || "{}");
 
 // Preview table
+if (streakBar) {
+  const streak = (streakData.streak || 0);
+  const capped = Math.min(30, streak);
+  const pct = Math.round((capped / 30) * 100);
+  streakBar.style.width = pct + '%';
+}
+
 if (progress.length === 0) {
   preview.innerHTML = '<p class="muted">No sessions available.</p>';
 } else {
@@ -26,6 +36,29 @@ if (progress.length === 0) {
     </div>
     ${rows}
   `;
+}
+
+// Charts
+if (sessionsEl) {
+  const byDay = progress.reduce((m, s) => { m[s.day] = (m[s.day] || 0) + 1; return m; }, {});
+  const dayLabels = Object.keys(byDay).sort();
+  const dayCounts = dayLabels.map(d => byDay[d]);
+  new Chart(sessionsEl, {
+    type: 'line',
+    data: { labels: dayLabels, datasets: [{ label: 'Sessions', data: dayCounts, tension: 0.3 }]},
+    options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+  });
+}
+
+if (mixEl) {
+  const byExercise = progress.reduce((m, s) => { m[s.exercise] = (m[s.exercise] || 0) + (s.reps || 0); return m; }, {});
+  const exLabels = Object.keys(byExercise);
+  const exCounts = exLabels.map(k => byExercise[k]);
+  new Chart(mixEl, {
+    type: 'bar',
+    data: { labels: exLabels, datasets: [{ label: 'Total Reps', data: exCounts }]},
+    options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+  });
 }
 
 // Export all sessions as PDF

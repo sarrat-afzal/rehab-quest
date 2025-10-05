@@ -85,6 +85,8 @@ function endExercise() {
     day: new Date().toISOString().split("T")[0],
     exercise: currentExercise,
     reps: repCount,
+    targetReps: targetReps,
+    targetSets: targetSets,
     duration: `${minutes}m ${seconds}s`,
   };
 
