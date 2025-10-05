@@ -7,6 +7,8 @@ const streakBar = document.getElementById("streakBarReport");
 const rs = document.getElementById('r-sessions');
 const rr = document.getElementById('r-reps');
 const rstreak = document.getElementById('r-streak');
+const rdays = document.getElementById('r-active-days');
+const rtop = document.getElementById('r-top-exercise');
 
 const progress = JSON.parse(localStorage.getItem("progress") || "[]");
 const streakData = JSON.parse(localStorage.getItem("streakData") || "{}");
@@ -25,6 +27,16 @@ if (rs && rr && rstreak) {
   rs.textContent = totalSessions;
   rr.textContent = totalReps;
   rstreak.textContent = (streakData.streak || 0) + '🔥';
+}
+
+if (rdays || rtop) {
+  const daysSet = new Set(progress.map(p => p.day));
+  if (rdays) rdays.textContent = daysSet.size;
+  if (rtop) {
+    const byEx = progress.reduce((m, s) => { m[s.exercise] = (m[s.exercise]||0)+(s.reps||0); return m; }, {});
+    const top = Object.entries(byEx).sort((a,b)=>b[1]-a[1])[0];
+    rtop.textContent = top ? `${top[0]} (${top[1]})` : '—';
+  }
 }
 
 if (progress.length === 0) {
