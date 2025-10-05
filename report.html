@@ -49,6 +49,27 @@
         </div>
       </section>
 
+      <section class="card">
+        <h2>Report Summary</h2>
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-number" id="r-sessions">0</div>
+            <div class="stat-label">Total Sessions</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number" id="r-reps">0</div>
+            <div class="stat-label">Total Reps</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number" id="r-streak">0🔥</div>
+            <div class="stat-label">Current Streak</div>
+          </div>
+        </div>
+        <div class="progress" style="margin-top:10px">
+          <div id="streakBarReport" class="bar" style="width:0%"></div>
+        </div>
+      </section>
+
       <section class="grid-2">
         <div class="card">
           <h2>Sessions Over Time</h2>
@@ -61,12 +82,7 @@
       </section>
 
       <section class="card">
-        <div class="row-between">
-          <h2>History</h2>
-          <div class="progress" style="width:240px">
-            <div id="streakBarReport" class="bar" style="width:0%"></div>
-          </div>
-        </div>
+        <h2>History</h2>
         <div id="preview" class="table"></div>
       </section>
 

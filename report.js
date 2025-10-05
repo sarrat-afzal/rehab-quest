@@ -4,6 +4,9 @@ const clearBtn = document.getElementById("clear-data");
 const sessionsEl = document.getElementById("sessionsChart");
 const mixEl = document.getElementById("mixChart");
 const streakBar = document.getElementById("streakBarReport");
+const rs = document.getElementById('r-sessions');
+const rr = document.getElementById('r-reps');
+const rstreak = document.getElementById('r-streak');
 
 const progress = JSON.parse(localStorage.getItem("progress") || "[]");
 const streakData = JSON.parse(localStorage.getItem("streakData") || "{}");
@@ -14,6 +17,14 @@ if (streakBar) {
   const capped = Math.min(30, streak);
   const pct = Math.round((capped / 30) * 100);
   streakBar.style.width = pct + '%';
+}
+
+if (rs && rr && rstreak) {
+  const totalSessions = progress.length;
+  const totalReps = progress.reduce((s, p) => s + (p.reps || 0), 0);
+  rs.textContent = totalSessions;
+  rr.textContent = totalReps;
+  rstreak.textContent = (streakData.streak || 0) + '🔥';
 }
 
 if (progress.length === 0) {
