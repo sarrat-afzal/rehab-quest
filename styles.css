@@ -153,6 +153,7 @@ body {
 .btn-toggle.active { border-color: var(--primary); box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary), transparent 80%); }
 
 .actions { display: flex; gap: 8px; justify-content: flex-end; }
+.actions.center { justify-content: center; }
 
 .table { display: grid; gap: 6px; }
 .table-head, .table-row {

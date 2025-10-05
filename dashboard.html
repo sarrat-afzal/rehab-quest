@@ -9,7 +9,24 @@
   </head>
   <body>
     <header class="topbar">
-      <div class="brand">🏥 Rehab Quest</div>
+      <div class="brand" aria-label="Rehab QUEST">
+        <svg width="22" height="22" viewBox="0 0 64 64" aria-hidden="true" style="vertical-align:middle;margin-right:6px">
+          <defs>
+            <linearGradient id="g1" x1="0" x2="1">
+              <stop offset="0%" stop-color="var(--primary)" />
+              <stop offset="100%" stop-color="var(--accent)" />
+            </linearGradient>
+          </defs>
+          <path d="M8 32c8-8 16-8 24 0s16 8 24 0" fill="none" stroke="url(#g1)" stroke-width="4" stroke-linecap="round">
+            <animate attributeName="d" dur="2s" repeatCount="indefinite"
+              values="M8 32c8-8 16-8 24 0s16 8 24 0; M8 28c8 8 16 8 24 0s16-8 24 0; M8 32c8-8 16-8 24 0s16 8 24 0" />
+          </path>
+          <circle cx="32" cy="18" r="4" fill="url(#g1)">
+            <animate attributeName="cy" values="18;14;18" dur="2s" repeatCount="indefinite" />
+          </circle>
+        </svg>
+        Rehab QUEST
+      </div>
       <nav class="userbar">
         <a href="index.html" class="btn btn-ghost">App</a>
         <a href="report.html" class="btn">Reports</a>
