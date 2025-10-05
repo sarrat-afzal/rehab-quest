@@ -44,7 +44,7 @@
           <p class="hero-tag">AI-guided recovery for strength and mobility.</p>
           <p class="hero-sub muted">Your personalized path to strength, balance, and recovery — guided by AI.</p>
           <div class="actions" style="margin-top:12px;">
-            <a class="btn btn-primary" href="login.html">Start Exercising</a>
+            <button id="start-btn" class="btn btn-primary">Start Exercising</button>
           </div>
         </div>
         <div class="hero-anim">
@@ -190,6 +190,31 @@
           const streak = Math.min(30, sd.streak || 0);
           const pct = Math.round((streak/30)*100);
           document.getElementById('streak-bar').style.width = pct+"%";
+        } catch {}
+      })();
+
+      // Start Exercising flow: if logged in -> open selection; else -> login then return
+      (function(){
+        const btn = document.getElementById('start-btn');
+        btn?.addEventListener('click', function(){
+          try {
+            const user = window.RQAuth?.getCurrentUser?.();
+            if (user && user.name) {
+              window.goToSelection?.();
+            } else {
+              const url = new URL('login.html', location.href);
+              url.searchParams.set('next', 'start');
+              location.href = url.toString();
+            }
+          } catch { location.href = 'login.html'; }
+        });
+
+        // Auto-start selection if redirected with start flag
+        try {
+          const params = new URLSearchParams(location.search);
+          if (params.get('start') === '1' || params.get('next') === 'start') {
+            window.goToSelection?.();
+          }
         } catch {}
       })();
     </script>

@@ -44,7 +44,12 @@
         const email = document.getElementById('email').value.trim();
         if (!name) return;
         window.RQAuth.setUser(name, email);
-        window.location.href = 'index.html';
+        const params = new URLSearchParams(location.search);
+        if (params.get('next') === 'start') {
+          window.location.href = 'index.html?start=1';
+        } else {
+          window.location.href = 'index.html';
+        }
       });
     </script>
   </body>
