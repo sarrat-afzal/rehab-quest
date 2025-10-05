@@ -89,6 +89,11 @@ body {
 .feature-title { font-weight: 700; margin-bottom: 4px; }
 .feature-text { color: var(--muted); font-size: 14px; }
 
+/* Lottie adjustments */
+.hero-anim { display: grid; place-items: center; }
+.hero-lottie { width: min(480px, 80vw); height: auto; }
+.icon-lottie { width: 28px; height: 28px; }
+
 .card {
   background: var(--card);
   border: 1px solid var(--border);

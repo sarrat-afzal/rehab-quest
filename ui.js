@@ -10,6 +10,13 @@
       btn.textContent = theme === 'dark' ? '☀️' : '🌙';
       btn.title = theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
     }
+    // Swap Lottie sources for dark/light themes
+    document.querySelectorAll('lottie-player').forEach((el) => {
+      const src = theme === 'dark' ? el.getAttribute('data-src-dark') : el.getAttribute('data-src-light');
+      if (src && el.getAttribute('src') !== src) {
+        el.setAttribute('src', src);
+      }
+    });
   }
 
   function initTheme(){
